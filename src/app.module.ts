@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { MatchModule } from './match/match.module';
+import { UserSchema } from './user/user.schema';
 
 @Module({
-  imports: [AuthModule, UserModule, MatchModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/roommate-finder'),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    UserModule,
+    MatchModule,
+  ],
 })
 export class AppModule {}
